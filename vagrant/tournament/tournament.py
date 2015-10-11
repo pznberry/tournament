@@ -24,14 +24,11 @@ def countPlayers():
 
 
 def registerPlayer(name):
-    """Adds a player to the tournament database.
-  
-    The database assigns a unique serial id number for the player.  (This
-    should be handled by your SQL database schema, not in your Python code.)
-  
-    Args:
-      name: the player's full name (need not be unique).
-    """
+    db = psycopg2.connect("tournament")
+    c = db.cursor
+    c.execute("insert into Players values (name)")
+    db.commit()
+    db.close()
 
 
 def playerStandings():
