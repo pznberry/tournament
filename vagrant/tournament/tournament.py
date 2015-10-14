@@ -14,35 +14,39 @@ def connect():
 def deleteMatches():
     """Remove all the match records from the database."""
     db = psycopg2.connect("dbname=tournament")
-    c = db.cursor
+    c = db.cursor()
     c.execute("delete from Matches;")
     db.commit()
-    db.close
+    db.close()
 
 
 def deletePlayers():
     """Remove all the player records from the database."""
     db = psycopg2.connect("dbname=tournament")
-    c = db.cursor
+    c = db.cursor()
     c.execute("delete from Players;")
     db.commit()
-    db.close
+    db.close()
 
 
 def countPlayers():
     """Returns the number of players currently registered."""
     db = psycopg2.connect("dbname=tournament")
-    c = db.cursor
+    c = db.cursor()
     c.execute("select count(*) from Players;")
     db.commit()
-    db.close
+    db.close()
 
 
 def registerPlayer(name):
     """Registers new player."""
     db = psycopg2.connect("dbname=tournament")
-    c = db.cursor
-    c.execute("insert into Players values (%s);")
+    c = db.cursor()
+    player = "insert into Players value (%s);"
+    scores = "insert into Scores (PlayerID, Wins, Matches) values (%s,%s,%s);"
+    c.execute(player, (name,))
+    id = c.fetchone()[0]
+    c.execute(scores, (id,0,0))
     db.commit()
     db.close()
 
@@ -60,6 +64,11 @@ def playerStandings():
         wins: the number of matches the player has won
         matches: the number of matches the player has played
     """
+    db = psycopg2.connect("dbname=tournament")
+    c = db.cursor()
+    c.execute("select Players.PlayerID, Players.Name, Wins.Wins")
+    db.commit()
+    db.close()
 
 
 def reportMatch(winner, loser):
@@ -86,5 +95,9 @@ def swissPairings():
         id2: the second player's unique id
         name2: the second player's name
     """
-
+    db = psycopg2.connect("dbname=tournament")
+    c = db.cursor()
+    c.execute("")
+    db.commit()
+    db.close()
 
